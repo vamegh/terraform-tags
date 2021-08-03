@@ -46,7 +46,17 @@ variable "environment" {
 variable "extra_tags" {
   type        = map(string)
   default     = {}
-  description = "Extra tags to attach to the ACM certificate"
+  description = "Extra / custom tags to include with tagging output"
+}
+
+variable "github_org" {
+  type    = string
+  default = ""
+}
+
+variable "github_repo" {
+  type    = string
+  default = ""
 }
 
 variable "name" {
@@ -99,17 +109,9 @@ variable "update_frequency" {
   default = ""
 }
 
-
-## Variables For ASG Tagging
-variable "set_key_as_list" {
-  type        = bool
-  default     = false
-  description = "Generate tags as a list of maps, for asgs mainly"
-}
-
 variable "additional_tag_maps" {
   type        = map(string)
   default     = {}
-  description = "Additional tags to map to list of maps, for asgs mainly"
+  description = "Additional tags to add to list of maps output expected format: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#example-usage" 
 }
 

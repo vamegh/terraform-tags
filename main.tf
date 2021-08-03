@@ -83,8 +83,15 @@ locals {
     Update-Frequency = var.update_frequency
   }
 
-}
+  github_repo = var.github_repo == "" ? {} : {
+    GitHub-Repo = var.github_repo
+  }
 
+  github_org = var.github_org == "" ? {} : {
+    GitHub-Org = var.github_org
+  }
+
+}
 
 locals {
   tags = merge(
@@ -108,19 +115,20 @@ locals {
   local.source_ami,
   local.sub_env,
   local.type,
-  local.update_frequency
+  local.update_frequency,
+  local.github_org,
+  local.github_repo
   )
-
-  tags_as_list_of_maps = data.null_data_source.tags_as_list_of_maps.*.outputs
 }
 
-data "null_data_source" "tags_as_list_of_maps" {
-  count  = var.set_key_as_list ? length(keys(local.tags)) : 0
-  inputs = merge(
-  {
-    key   = keys(local.tags)[count.index]
-    value = values(local.tags)[count.index]
-  },
-  var.additional_tag_maps
+locals {
+  for_each = local.tags
+
+  tags_as_list_of_maps = merge(
+    {
+      key = each.key
+      value = each.value
+    },
+    var.additional_tag_maps
   )
 }
