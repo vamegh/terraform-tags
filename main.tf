@@ -122,13 +122,5 @@ locals {
 }
 
 locals {
-  for_each = local.tags
-
-  tags_as_list_of_maps = merge(
-    {
-      key = each.key
-      value = each.value
-    },
-    var.additional_tag_maps
-  )
+  tags_as_list_of_maps = [for key, value in local.tags : merge({key = key, value = value }, var.additional_tag_maps)]
 }
