@@ -2,7 +2,7 @@ data "aws_caller_identity" "current" {}
 
 locals {
   account_name = var.account_name == "" ? {} : {
-    Account_Name = var.account_name
+    AccountName = var.account_name
   }
 
   application = var.application == "" ? {} : {
@@ -10,29 +10,29 @@ locals {
   }
 
   app_version = var.application_version == "" ? {} : {
-    Application-Version = var.application_version
+    ApplicationVersion = var.application_version
   }
 
   business_owner = var.business_owner == "" ? {} : {
-    Business-Owner = var.business_owner
+    BusinessOwner = var.business_owner
   }
 
   classification = var.classification == "" ? {} : {
-    Classification-Level = var.classification
+    ClassificationLevel = var.classification
   }
 
   common_tags = {
-    Managed-By  = "terraform",
-    Creator-ARN = data.aws_caller_identity.current.arn,
-    Creator-ID  = data.aws_caller_identity.current.account_id
+    ManagedBy  = "terraform",
+    CreatorARN = data.aws_caller_identity.current.arn,
+    CreatorID  = data.aws_caller_identity.current.account_id
   }
 
   cost_center = var.cost_center == "" ? {} : {
-    Cost-Center = var.cost_center
+    CostCenter = var.cost_center
   }
 
   data = var.data == "" ? {} : {
-    Source-Data = var.data
+    SourceData = var.data
   }
 
   docs = var.documentation == "" ? {} : {
@@ -40,7 +40,7 @@ locals {
   }
 
   env = var.environment == "" ? {} : {
-    Source-Environment = var.environment
+    SourceEnvironment = var.environment
   }
 
   name = var.name == "" ? {} : {
@@ -56,7 +56,7 @@ locals {
   }
 
   os_version = var.os_version == "" ? {} : {
-    OS-Version = var.os_version
+    OSVersion = var.os_version
   }
 
   project = var.project == "" ? {} : {
@@ -68,11 +68,11 @@ locals {
   }
 
   source_ami = var.source_ami == "" ? {} : {
-    Source-AMI = var.source_ami
+    SourceAMI = var.source_ami
   }
 
   sub_env = var.sub_env == "" ? {} : {
-    Sub-Environment = var.sub_env
+    SubEnvironment = var.sub_env
   }
 
   type = var.type == "" ? {} : {
@@ -80,17 +80,16 @@ locals {
   }
 
   update_frequency = var.update_frequency == "" ? {} : {
-    Update-Frequency = var.update_frequency
+    UpdateFrequency = var.update_frequency
   }
 
   github_repo = var.github_repo == "" ? {} : {
-    GitHub-Repo = var.github_repo
+    GitHubRepo = var.github_repo
   }
 
   github_org = var.github_org == "" ? {} : {
-    GitHub-Org = var.github_org
+    GitHubOrg = var.github_org
   }
-
 }
 
 locals {
