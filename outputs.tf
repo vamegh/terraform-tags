@@ -1,5 +1,5 @@
 output "tags" {
-  value       = local.tags
+  value       = local.tags_output
   description = "Normalized Tag Map"
 }
 

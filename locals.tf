@@ -118,7 +118,7 @@ locals {
 }
 
 locals {
-  tags = merge(
+  tags_output = merge(
     var.extra_tags,
     local.account_name,
     local.application,
@@ -146,5 +146,5 @@ locals {
 }
 
 locals {
-  tags_as_list_of_maps = [for key, value in local.tags : merge({ key = key, value = value }, var.additional_tag_maps)]
+  tags_as_list_of_maps = [for key, value in local.tags_output : merge({ key = key, value = value }, var.additional_tag_maps)]
 }
