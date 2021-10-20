@@ -1,27 +1,30 @@
 locals {
   tags = defaults(var.tags, {
-    account_name     = ""
-    application      = ""
-    app_version      = ""
-    business_owner   = ""
-    classification   = ""
-    common_tags      = ""
-    cost_center      = ""
-    data             = ""
-    docs             = ""
-    env              = ""
-    name             = ""
-    origin           = ""
-    os               = ""
-    os_version       = ""
-    project          = ""
-    service          = ""
-    source_ami       = ""
-    sub_env          = ""
-    type             = ""
-    update_frequency = ""
-    github_org       = ""
-    github_repo      = ""
+    account_name        = ""
+    application         = ""
+    app_version         = ""
+    application_version = ""
+    business_owner      = ""
+    classification      = ""
+    common_tags         = ""
+    cost_center         = ""
+    data                = ""
+    docs                = ""
+    env                 = ""
+    documentation       = ""
+    environment         = ""
+    name                = ""
+    origin              = ""
+    os                  = ""
+    os_version          = ""
+    project             = ""
+    service             = ""
+    source_ami          = ""
+    sub_env             = ""
+    type                = ""
+    update_frequency    = ""
+    github_org          = ""
+    github_repo         = ""
   })
 }
 
@@ -32,6 +35,10 @@ locals {
 
   application = local.tags.application == "" ? {} : {
     Application = local.tags.application
+  }
+
+  app_version_alt = local.tags.app_version == "" ? {} : {
+    ApplicationVersion = local.tags.app_version
   }
 
   app_version = local.tags.application_version == "" ? {} : {
@@ -60,12 +67,20 @@ locals {
     SourceData = local.tags.data
   }
 
+  docs_alt = local.tags.docs == "" ? {} : {
+    Documentation = local.tags.docs
+  }
+
   docs = local.tags.documentation == "" ? {} : {
     Documentation = local.tags.documentation
   }
 
+  env_alt = local.tags.env == "" ? {} : {
+    Environment = local.tags.env
+  }
+
   env = local.tags.environment == "" ? {} : {
-    SourceEnvironment = local.tags.environment
+    Environment = local.tags.environment
   }
 
   name = local.tags.name == "" ? {} : {
@@ -122,12 +137,15 @@ locals {
     var.extra_tags,
     local.account_name,
     local.application,
+    local.app_version_alt,
     local.app_version,
     local.business_owner,
     local.classification,
     local.common_tags,
     local.cost_center,
     local.data,
+    local.docs_alt,
+    local.env_alt,
     local.docs,
     local.env,
     local.name,
