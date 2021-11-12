@@ -24,8 +24,8 @@ variable "tags" {
     documentation       = optional(string)
     data                = optional(string)
     docs                = optional(string)
-    env                 = optional(string)
-    environment         = optional(string)
+    env_id              = optional(string)
+    env_type            = optional(string)
     name                = optional(string)
     origin              = optional(string)
     os                  = optional(string)
@@ -33,7 +33,6 @@ variable "tags" {
     project             = optional(string)
     service             = optional(string)
     source_ami          = optional(string)
-    sub_env             = optional(string)
     type                = optional(string)
     update_frequency    = optional(string)
     github_org          = optional(string)
@@ -51,8 +50,8 @@ variable "tags" {
     data                = ""
     docs                = ""
     documentation       = ""
-    env                 = ""
-    environment         = ""
+    env_id              = ""
+    env_type            = ""
     name                = ""
     origin              = ""
     os                  = ""
@@ -60,7 +59,6 @@ variable "tags" {
     project             = ""
     service             = ""
     source_ami          = ""
-    sub_env             = ""
     type                = ""
     update_frequency    = ""
     github_org          = ""

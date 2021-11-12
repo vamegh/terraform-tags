@@ -10,9 +10,9 @@ locals {
     cost_center         = ""
     data                = ""
     docs                = ""
-    env                 = ""
     documentation       = ""
-    environment         = ""
+    env_id              = ""
+    env_type            = ""
     name                = ""
     origin              = ""
     os                  = ""
@@ -20,7 +20,6 @@ locals {
     project             = ""
     service             = ""
     source_ami          = ""
-    sub_env             = ""
     type                = ""
     update_frequency    = ""
     github_org          = ""
@@ -75,13 +74,14 @@ locals {
     Documentation = local.tags.documentation
   }
 
-  env_alt = local.tags.env == "" ? {} : {
-    Environment = local.tags.env
+  env_id = local.tags.env_id == "" ? {} : {
+    EnvID = local.tags.env_id
   }
 
-  env = local.tags.environment == "" ? {} : {
-    Environment = local.tags.environment
+  env_type = local.tags.env_type == "" ? {} : {
+    EnvType = local.tags.env_type
   }
+
 
   name = local.tags.name == "" ? {} : {
     Name = local.tags.name
@@ -109,10 +109,6 @@ locals {
 
   source_ami = local.tags.source_ami == "" ? {} : {
     SourceAMI = local.tags.source_ami
-  }
-
-  sub_env = local.tags.sub_env == "" ? {} : {
-    SubEnvironment = local.tags.sub_env
   }
 
   type = local.tags.type == "" ? {} : {
@@ -145,9 +141,9 @@ locals {
     local.cost_center,
     local.data,
     local.docs_alt,
-    local.env_alt,
     local.docs,
-    local.env,
+    local.env_id,
+    local.env_type,
     local.name,
     local.origin,
     local.os,
@@ -155,7 +151,6 @@ locals {
     local.project,
     local.service,
     local.source_ami,
-    local.sub_env,
     local.type,
     local.update_frequency,
     local.github_org,
