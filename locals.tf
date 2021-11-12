@@ -75,7 +75,7 @@ locals {
   }
 
   env_id = local.tags.env_id == "" ? {} : {
-    EnvID = local.tags.env_id
+    EnvId = local.tags.env_id
   }
 
   env_type = local.tags.env_type == "" ? {} : {
