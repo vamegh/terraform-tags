@@ -164,5 +164,7 @@ locals {
 }
 
 locals {
+  k8s_labels_output = { for key, value in local.tags_output : key => replace(value, replace("/", "/^//", ""), "") }
+
   tags_as_list_of_maps = [for key, value in local.tags_output : merge({ key = key, value = value }, var.additional_tag_maps)]
 }
