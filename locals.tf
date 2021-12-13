@@ -13,6 +13,7 @@ locals {
     documentation       = ""
     env_id              = ""
     env_type            = ""
+    zone_id             = ""
     name                = ""
     origin              = ""
     os                  = ""
@@ -82,6 +83,9 @@ locals {
     EnvType = local.tags.env_type
   }
 
+  zone_id = local.tags.zone_id == "" ? {} : {
+    ZoneId = local.tags.zone_id
+  }
 
   name = local.tags.name == "" ? {} : {
     Name = local.tags.name
@@ -144,6 +148,7 @@ locals {
     local.docs,
     local.env_id,
     local.env_type,
+    local.zone_id,
     local.name,
     local.origin,
     local.os,

@@ -37,6 +37,7 @@ variable "tags" {
     update_frequency    = optional(string)
     github_org          = optional(string)
     github_repo         = optional(string)
+    zone_id             = optional(string)
   })
   default = {
     account_name        = ""
@@ -63,5 +64,6 @@ variable "tags" {
     update_frequency    = ""
     github_org          = ""
     github_repo         = ""
+    zone_id             = ""
   }
 }
