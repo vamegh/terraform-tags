@@ -1,115 +1,73 @@
-variable "account_name" {
-  type    = string
-  default = ""
-}
-
-variable "application" {
-  type    = string
-  default = ""
-}
-
-variable "application_version" {
-  type    = string
-  default = ""
-}
-
-variable "business_owner" {
-  type    = string
-  default = ""
-}
-
-variable "classification" {
-  type    = string
-  default = ""
-}
-
-variable "cost_center" {
-  type    = string
-  default = ""
-}
-
-variable "data" {
-  type    = string
-  default = ""
-}
-
-variable "documentation" {
-  type    = string
-  default = ""
-}
-
-variable "environment" {
-  type    = string
-  default = ""
+variable "additional_tag_maps" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to add to list of maps output expected format: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#example-usage"
 }
 
 variable "extra_tags" {
   type        = map(string)
   default     = {}
-  description = "Extra tags to attach to the ACM certificate"
+  description = "Extra / custom tags to include with tagging output"
 }
 
-variable "name" {
-  type    = string
-  default = ""
+variable "tags" {
+  description = "A map of tags, the keys get formatted into PascalCase"
+  type = object({
+    account_name        = optional(string)
+    application         = optional(string)
+    app_version         = optional(string)
+    application_version = optional(string)
+    business_owner      = optional(string)
+    classification      = optional(string)
+    common_tags         = optional(string)
+    cost_center         = optional(string)
+    documentation       = optional(string)
+    data                = optional(string)
+    docs                = optional(string)
+    env_id              = optional(string)
+    env_name            = optional(string)
+    env_type            = optional(string)
+    sub_env             = optional(string)
+    name                = optional(string)
+    origin              = optional(string)
+    os                  = optional(string)
+    os_version          = optional(string)
+    project             = optional(string)
+    service             = optional(string)
+    source_ami          = optional(string)
+    type                = optional(string)
+    update_frequency    = optional(string)
+    github_org          = optional(string)
+    github_repo         = optional(string)
+    zone_name           = optional(string)
+  })
+  default = {
+    account_name        = ""
+    application         = ""
+    app_version         = ""
+    application_version = ""
+    business_owner      = ""
+    classification      = ""
+    common_tags         = ""
+    cost_center         = ""
+    data                = ""
+    docs                = ""
+    documentation       = ""
+    env_id              = ""
+    env_name            = ""
+    env_type            = ""
+    sub_env             = ""
+    name                = ""
+    origin              = ""
+    os                  = ""
+    os_version          = ""
+    project             = ""
+    service             = ""
+    source_ami          = ""
+    type                = ""
+    update_frequency    = ""
+    github_org          = ""
+    github_repo         = ""
+    zone_name           = ""
+  }
 }
-
-variable "origin" {
-  type    = string
-  default = ""
-}
-
-variable "os" {
-  description = "Acceptable values: Linux | Windows"
-  default     = ""
-}
-
-variable "os_version" {
-  description = "Version of the OS. Examples: 2012R2, 17.04, 2017.5.19"
-  default     = ""
-}
-
-variable "project" {
-  description = "Project Name This Service / Resource Belongs to"
-  default     = ""
-}
-
-variable "service" {
-  type    = string
-  default = ""
-}
-
-variable "source_ami" {
-  description = "AMI ID of the source AMI that this AMI was built from"
-  default     = ""
-}
-
-variable "sub_env" {
-  description = "Sub-Environment"
-  default     = ""
-}
-
-variable "type" {
-  type    = string
-  default = ""
-}
-
-variable "update_frequency" {
-  type    = string
-  default = ""
-}
-
-
-## Variables For ASG Tagging
-variable "set_key_as_list" {
-  type        = bool
-  default     = false
-  description = "Generate tags as a list of maps, for asgs mainly"
-}
-
-variable "additional_tag_maps" {
-  type        = map(string)
-  default     = {}
-  description = "Additional tags to map to list of maps, for asgs mainly"
-}
-
