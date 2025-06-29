@@ -1,67 +1,52 @@
 locals {
-  tags = defaults(var.tags, {
-    account_name        = ""
-    application         = ""
-    app_version         = ""
-    application_version = ""
-    business_owner      = ""
-    classification      = ""
-    common_tags         = ""
-    cost_center         = ""
-    data                = ""
-    docs                = ""
-    documentation       = ""
-    env_id              = ""
-    env_name            = ""
-    env_type            = ""
-    zone_name           = ""
-    sub_env             = ""
-    name                = ""
-    origin              = ""
-    os                  = ""
-    os_version          = ""
-    project             = ""
-    service             = ""
-    source_ami          = ""
-    type                = ""
-    update_frequency    = ""
-    github_org          = ""
-    github_repo         = ""
-  })
-
   creator_arn_list = split("/", data.aws_caller_identity.current.arn)
-  creator_email    = element(local.creator_arn_list, length(local.creator_arn_list)-1)
+  creator_email    = element(local.creator_arn_list, length(local.creator_arn_list) - 1)
   creator_name     = element(split("@", local.creator_email), 0)
+
+  env_name_set  = ( var.tags.env_name == "" ?
+                    var.tags.environment : var.tags.env_name )
+  env_sub_sort  = ( var.tags.sub_env == "" ?
+                    var.tags.sub_environment : var.tags.sub_env )
+  env_sub_set   = ( var.tags.env_sub == "" ?
+                    local.env_sub_sort : var.tags.env_sub )
+  env_type_set  = ( local.env_sub_set == "" ?
+                    var.tags.env_type : 
+                    "${var.tags.env_type}-${local.env_sub_set}" )
+
+  env_id_set = local.env_type_set == "" ? {
+    EnvId = local.env_name_set } : {
+    EnvId = "${local.env_name_set}-${local.env_type_set}"
+  }
 }
 
 locals {
-  account_name = local.tags.account_name == "" ? {} : {
-    AccountName = local.tags.account_name
+  account_name = var.tags.account_name == "" ? {} : {
+    AccountName = var.tags.account_name
   }
 
-  application = local.tags.application == "" ? {} : {
-    Application = local.tags.application
+  application = var.tags.application == "" ? {} : {
+    Application = var.tags.application
   }
 
-  app_version_alt = local.tags.app_version == "" ? {} : {
-    ApplicationVersion = local.tags.app_version
+  app_version_alt = var.tags.app_version == "" ? {} : {
+    ApplicationVersion = var.tags.app_version
   }
 
-  app_version = local.tags.application_version == "" ? {} : {
-    ApplicationVersion = local.tags.application_version
+  app_version = var.tags.application_version == "" ? {} : {
+    ApplicationVersion = var.tags.application_version
   }
 
-  business_owner = local.tags.business_owner == "" ? {} : {
-    BusinessOwner = local.tags.business_owner
+  business_owner = var.tags.business_owner == "" ? {} : {
+    BusinessOwner = var.tags.business_owner
   }
 
-  classification = local.tags.classification == "" ? {} : {
-    ClassificationLevel = local.tags.classification
+  classification = var.tags.classification == "" ? {} : {
+    ClassificationLevel = var.tags.classification
   }
 
   common_tags = {
     ManagedBy    = "terraform",
-    CreatorArn   = data.aws_caller_identity.current.arn,
+    CreatorArn   = data.aws_caller_identity.current.arn
     CreatorEmail = local.creator_email
     CreatorName  = local.creator_name
     AccountId    = data.aws_caller_identity.current.account_id
@@ -73,85 +58,98 @@ locals {
     AccountId   = data.aws_caller_identity.current.account_id
   }
 
-  cost_center = local.tags.cost_center == "" ? {} : {
-    CostCenter = local.tags.cost_center
+  cost_center = var.tags.cost_center == "" ? {} : {
+    CostCenter = var.tags.cost_center
   }
 
-  data = local.tags.data == "" ? {} : {
-    SourceData = local.tags.data
+  data = var.tags.data == "" ? {} : {
+    SourceData = var.tags.data
   }
 
-  docs_alt = local.tags.docs == "" ? {} : {
-    Documentation = local.tags.docs
+  docs_alt = var.tags.docs == "" ? {} : {
+    Documentation = var.tags.docs
   }
 
-  docs = local.tags.documentation == "" ? {} : {
-    Documentation = local.tags.documentation
+  docs = var.tags.documentation == "" ? {} : {
+    Documentation = var.tags.documentation
   }
 
-  env_id = local.tags.env_id == "" ? { EnvId = format("%s-%s", local.tags.env_name, local.tags.sub_env) } : {
-    EnvId = local.tags.env_id
+  environment = var.tags.environment == "" ? {} : {
+    Environment = var.tags.environment
   }
 
-  env_name = local.tags.env_name == "" ? {} : {
-    EnvName = local.tags.env_name
+  env_id = var.tags.env_id == "" ? local.env_id_set : {
+    EnvId = var.tags.env_id
   }
 
-  env_type = local.tags.env_type == "" ? {} : {
-    EnvType = local.tags.env_type
+  env_name = var.tags.env_name == "" ? {} : {
+    EnvName = var.tags.env_name
   }
 
-  zone_name = local.tags.zone_name == "" ? {} : {
-    ZoneName = local.tags.zone_name
+  env_sub = var.tags.env_sub == "" ? {} : {
+    EnvSub = var.tags.env_sub
   }
 
-  sub_env = local.tags.sub_env == "" ? {} : {
-    SubEnvironment = local.tags.sub_env
+  env_type = var.tags.env_type == "" ? {} : {
+    EnvType = var.tags.env_type
   }
 
-  name = local.tags.name == "" ? {} : {
-    Name = local.tags.name
+  sub_env = var.tags.sub_env == "" ? {} : {
+    SubEnv = var.tags.sub_env
   }
 
-  origin = local.tags.origin == "" ? {} : {
-    Origin = local.tags.origin
+  sub_environment = var.tags.sub_environment == "" ? {} : {
+    SubEnvironment = var.tags.sub_environment
   }
 
-  os = local.tags.os == "" ? {} : {
-    Os = local.tags.os
+  name = var.tags.name == "" ? {} : {
+    Name = var.tags.name
   }
 
-  os_version = local.tags.os_version == "" ? {} : {
-    OsVersion = local.tags.os_version
+  origin = var.tags.origin == "" ? {} : {
+    Origin = var.tags.origin
   }
 
-  project = local.tags.project == "" ? {} : {
-    Project = local.tags.project
+  os = var.tags.os == "" ? {} : {
+    Os = var.tags.os
   }
 
-  service = local.tags.service == "" ? {} : {
-    Service = local.tags.service
+  os_version = var.tags.os_version == "" ? {} : {
+    OsVersion = var.tags.os_version
   }
 
-  source_ami = local.tags.source_ami == "" ? {} : {
-    SourceAmi = local.tags.source_ami
+  project = var.tags.project == "" ? {} : {
+    Project = var.tags.project
   }
 
-  type = local.tags.type == "" ? {} : {
-    Type = local.tags.type
+  service = var.tags.service == "" ? {} : {
+    Service = var.tags.service
   }
 
-  update_frequency = local.tags.update_frequency == "" ? {} : {
-    UpdateFrequency = local.tags.update_frequency
+  source_ami = var.tags.source_ami == "" ? {} : {
+    SourceAmi = var.tags.source_ami
   }
 
-  github_repo = local.tags.github_repo == "" ? {} : {
-    GitHubRepo = local.tags.github_repo
+  type = var.tags.type == "" ? {} : {
+    Type = var.tags.type
   }
 
-  github_org = local.tags.github_org == "" ? {} : {
-    GitHubOrg = local.tags.github_org
+  update_frequency = var.tags.update_frequency == "" ? {} : {
+    UpdateFrequency = var.tags.update_frequency
   }
+
+  github_repo = var.tags.github_repo == "" ? {} : {
+    GitHubRepo = var.tags.github_repo
+  }
+
+  github_org = var.tags.github_org == "" ? {} : {
+    GitHubOrg = var.tags.github_org
+  }
+
+  zone_name = var.tags.zone_name == "" ? {} : {
+    ZoneName = var.tags.zone_name
+  }
+
 }
 
 locals {
@@ -167,11 +165,13 @@ locals {
     local.data,
     local.docs_alt,
     local.docs,
+    local.environment,
     local.env_id,
     local.env_name,
+    local.env_sub,
     local.env_type,
-    local.zone_name,
-    local.sub_env,
+    local.github_org,
+    local.github_repo,
     local.name,
     local.origin,
     local.os,
@@ -179,10 +179,11 @@ locals {
     local.project,
     local.service,
     local.source_ami,
+    local.sub_env,
+    local.sub_environment,
     local.type,
     local.update_frequency,
-    local.github_org,
-    local.github_repo,
+    local.zone_name,
     var.extra_tags
   )
 
@@ -196,11 +197,15 @@ locals {
     local.common_labels,
     local.cost_center,
     local.data,
+    local.docs_alt,
+    local.docs,
     local.env_id,
+    local.environment,
     local.env_name,
+    local.env_sub,
     local.env_type,
-    local.zone_name,
-    local.sub_env,
+    local.github_org,
+    local.github_repo,
     local.name,
     local.origin,
     local.os,
@@ -208,9 +213,11 @@ locals {
     local.project,
     local.service,
     local.source_ami,
+    local.sub_env,
+    local.sub_environment,
     local.type,
     local.update_frequency,
-    local.github_org,
+    local.zone_name,
     var.extra_tags
   )
 }
